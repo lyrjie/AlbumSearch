@@ -14,4 +14,6 @@ versions.moshi = "1.8.0"
 // See https://github.com/square/retrofit/blob/master/CHANGELOG.md
 versions.retrofit = "2.6.4"
 
+versions.recycler_view = "1.1.0"
+
 ext.versions = versions

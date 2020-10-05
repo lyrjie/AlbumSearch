@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.albumsearch.R
+import com.example.albumsearch.databinding.FragmentSearchBinding
 import com.example.albumsearch.viewmodel.SearchViewModel
 
 class SearchFragment : Fragment() {
@@ -16,6 +17,7 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        val binding = FragmentSearchBinding.inflate(inflater)
+        return binding.root
     }
 }

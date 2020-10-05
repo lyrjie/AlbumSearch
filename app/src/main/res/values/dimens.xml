@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="album_art_dimen_small">100dp</dimen>
+    <dimen name="text_size_larger">16sp</dimen>
+    <dimen name="text_size_regular">14sp</dimen>
+    <dimen name="padding_smaller">8dp</dimen>
+</resources>

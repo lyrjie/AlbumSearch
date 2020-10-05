@@ -5,4 +5,10 @@ import androidx.lifecycle.ViewModel
 /**
  * ViewModel for search screen
  */
-class SearchViewModel : ViewModel()
+class SearchViewModel : ViewModel() {
+
+    fun performSearch(term: String) {
+        TODO()
+    }
+
+}

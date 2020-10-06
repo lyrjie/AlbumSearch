@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.albumsearch.R
 import com.example.albumsearch.databinding.FragmentAlbumDetailBinding
 import com.example.albumsearch.model.network.dto.Album
+import com.example.albumsearch.view.adapters.LookupEntityAdapter
 import com.example.albumsearch.viewmodel.AlbumDetailViewModel
 import com.example.albumsearch.viewmodel.AlbumDetailViewModelFactory
 
@@ -35,6 +37,31 @@ class AlbumDetailFragment : Fragment() {
         validateArguments()
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentAlbumDetailBinding.inflate(inflater)
+        binding.viewModel = viewModel
+
+        setupTrackRecycler(binding.trackList)
+
+        return binding.root
+    }
+
+    /**
+     * Initializes [trackList] to display tracks provided by [viewModel]
+     *
+     * @param trackList
+     */
+    private fun setupTrackRecycler(trackList: RecyclerView) {
+        val adapter = LookupEntityAdapter()
+        trackList.adapter = adapter
+        viewModel.tracks.observe(viewLifecycleOwner, {
+            adapter.submitList(it)
+        })
+    }
+
     /**
      * Check passed arguments and navigate back with error message if required argument is null
      */
@@ -47,15 +74,6 @@ class AlbumDetailFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val binding = FragmentAlbumDetailBinding.inflate(inflater)
-        binding.viewModel = viewModel
-        return binding.root
     }
 
     companion object {

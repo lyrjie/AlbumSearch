@@ -66,7 +66,7 @@ class SearchViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
 
-        // Cancel pending jobs
+        // Cancel pending coroutines
         job.cancel()
     }
 

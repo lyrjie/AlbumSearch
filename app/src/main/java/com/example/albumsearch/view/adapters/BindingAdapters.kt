@@ -1,6 +1,8 @@
 package com.example.albumsearch.view.adapters
 
+import android.text.format.DateUtils
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -31,5 +33,29 @@ fun ImageView.loadImage(url: String?) {
                     .error(R.drawable.ic_broken_image)
             )
             .into(this)
+    }
+}
+
+/**
+ * Sets [TextView]'s text to [newText] with dot added in the end
+ *
+ * @param newText
+ */
+@BindingAdapter("numberWithDot")
+fun TextView.setNumberWithDot(newText: Int?) {
+    newText?.let {
+        text = context.getString(R.string.number_with_dot, newText)
+    }
+}
+
+/**
+ * Sets [TextView]'s text to [millis] converted to readable duration (1:23:45)
+ *
+ * @param millis
+ */
+@BindingAdapter("durationText")
+fun TextView.setDurationText(millis: Long?) {
+    millis?.let {
+        text = DateUtils.formatElapsedTime(millis / 1000)
     }
 }

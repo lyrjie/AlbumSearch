@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="track"
+            type="com.example.albumsearch.model.network.dto.LookupEntity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/track_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:maxLines="1"
+            android:minEms="3"
+            android:padding="@dimen/padding_smaller"
+            android:textSize="@dimen/text_size_regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:numberWithDot="@{track.trackNumber}"
+            tools:text="1." />
+
+        <TextView
+            android:id="@+id/track_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:padding="@dimen/padding_smaller"
+            android:text="@{track.name}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/track_duration"
+            app:layout_constraintStart_toEndOf="@id/track_number"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/placeholder_track_name" />
+
+        <TextView
+            android:id="@+id/track_duration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:padding="@dimen/padding_smaller"
+            android:textSize="@dimen/text_size_regular"
+            app:durationText="@{track.trackTimeMillis}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="3:35" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

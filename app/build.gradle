@@ -41,6 +41,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
     implementation "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+    implementation "androidx.legacy:legacy-support-v4:$versions.legacy_support"
 
     // Moshi for JSON parsing
     implementation "com.squareup.moshi:moshi:$versions.moshi"

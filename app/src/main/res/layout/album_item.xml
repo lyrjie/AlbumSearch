@@ -29,6 +29,7 @@
         <TextView
             android:id="@+id/album_name"
             style="@style/album_item_text"
+            android:text="@{album.name}"
             android:textSize="@dimen/text_size_larger"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/artist_name"
@@ -40,22 +41,13 @@
         <TextView
             android:id="@+id/artist_name"
             style="@style/album_item_text"
-            android:textSize="@dimen/text_size_regular"
-            app:layout_constraintBottom_toTopOf="@id/album_year"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cover_art"
-            app:layout_constraintTop_toBottomOf="@id/album_name"
-            tools:text="@string/placeholder_artist_name" />
-
-        <TextView
-            android:id="@+id/album_year"
-            style="@style/album_item_text"
+            android:text="@{album.artistName}"
             android:textSize="@dimen/text_size_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cover_art"
-            app:layout_constraintTop_toBottomOf="@id/artist_name"
-            tools:text="@string/placeholder_album_year" />
+            app:layout_constraintTop_toBottomOf="@id/album_name"
+            tools:text="@string/placeholder_artist_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

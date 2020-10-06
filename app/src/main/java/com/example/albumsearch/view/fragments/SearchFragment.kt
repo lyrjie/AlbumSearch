@@ -7,21 +7,49 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.albumsearch.databinding.FragmentSearchBinding
+import com.example.albumsearch.view.adapters.AlbumAdapter
+import com.example.albumsearch.view.adapters.AlbumOnClickListener
 import com.example.albumsearch.viewmodel.SearchViewModel
+import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : Fragment() {
 
     private val viewModel: SearchViewModel by lazy { ViewModelProvider(this).get(SearchViewModel::class.java) }
 
+    /**
+     * Search results adapter
+     */
+    private lateinit var adapter: AlbumAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentSearchBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
+        setupResultsRecycler(binding.searchResultsRecycler)
         setupSearchCallback(binding.inputSearchTerm)
 
         return binding.root
+    }
+
+    /**
+     * Initializes [search_results_recycler]
+     */
+    private fun setupResultsRecycler(searchResultsRecycler: RecyclerView) {
+        // Setup RecyclerView.Adapter
+        adapter = AlbumAdapter(AlbumOnClickListener { })
+        searchResultsRecycler.adapter = adapter
+
+        // Listen for result updates
+        viewModel.searchResults.observe(viewLifecycleOwner, {
+            adapter.submitList(it)
+            // Hide RecyclerView if there's nothing to display
+            searchResultsRecycler.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+        })
     }
 
     /**

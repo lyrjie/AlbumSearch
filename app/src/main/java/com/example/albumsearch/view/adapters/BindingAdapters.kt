@@ -1,6 +1,7 @@
 package com.example.albumsearch.view.adapters
 
 import android.text.format.DateUtils
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -8,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.albumsearch.R
+import com.example.albumsearch.model.network.ApiStatus
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -86,5 +88,29 @@ fun TextView.setYearText(date: Date?) {
 fun TextView.setDateText(date: Date?) {
     date?.let {
         text = SimpleDateFormat.getDateInstance().format(date)
+    }
+}
+
+/**
+ * Changes [ImageView]'s drawable and visibility based on the passed [status].
+ * [ApiStatus.ERROR] and [ApiStatus.LOADING] show fitting images while [ApiStatus.DONE] hides the
+ * [ImageView]
+ *
+ * @param status
+ */
+@BindingAdapter("statusImage")
+fun ImageView.setStatusImage(status: ApiStatus?) {
+    when (status) {
+        ApiStatus.LOADING -> {
+            setImageResource(R.drawable.loading_animation)
+            visibility = View.VISIBLE
+        }
+        ApiStatus.DONE -> {
+            visibility = View.GONE
+        }
+        ApiStatus.ERROR -> {
+            setImageResource(R.drawable.ic_network_error)
+            visibility = View.VISIBLE
+        }
     }
 }

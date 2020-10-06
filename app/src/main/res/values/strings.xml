@@ -15,4 +15,5 @@
     <string name="placeholder_date">16 november 1987</string>
     <string name="country">Country:</string>
     <string name="placeholder_country">England</string>
+    <string name="api_status_message">API status message</string>
 </resources>

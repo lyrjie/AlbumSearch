@@ -3,6 +3,7 @@ package com.example.albumsearch.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.albumsearch.model.network.ApiStatus
 import com.example.albumsearch.model.network.ITunesService
 import com.example.albumsearch.model.network.dto.Album
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +41,13 @@ class SearchViewModel : ViewModel() {
         get() = _clearSearchFocus
 
     /**
+     * Status of the last API call
+     */
+    private val _status = MutableLiveData<ApiStatus>()
+    val status: LiveData<ApiStatus>
+        get() = _status
+
+    /**
      * Performs an album search with the provided [term] and updates [searchResults] with the results
      *
      * @param term search keywords
@@ -48,8 +56,11 @@ class SearchViewModel : ViewModel() {
         _clearSearchFocus.value = true
         coroutineScope.launch {
             try {
+                _status.value = ApiStatus.LOADING
                 _searchResults.value = ITunesService.searchAlbums(term).sortedBy { it.name }
+                _status.value = ApiStatus.DONE
             } catch (exception: Exception) {
+                _status.value = ApiStatus.ERROR
                 _searchResults.value = ArrayList()
             }
         }

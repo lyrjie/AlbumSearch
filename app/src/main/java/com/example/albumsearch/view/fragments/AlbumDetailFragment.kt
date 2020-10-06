@@ -1,11 +1,11 @@
 package com.example.albumsearch.view.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albumsearch.R
@@ -45,8 +45,21 @@ class AlbumDetailFragment : Fragment() {
         binding.viewModel = viewModel
 
         setupTrackRecycler(binding.trackList)
+        setupToaster()
 
         return binding.root
+    }
+
+    /**
+     * Sets up toast displaying
+     */
+    private fun setupToaster() {
+        viewModel.toastMessage.observe(viewLifecycleOwner, {
+            it?.let {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+                viewModel.onToashShown()
+            }
+        })
     }
 
     /**

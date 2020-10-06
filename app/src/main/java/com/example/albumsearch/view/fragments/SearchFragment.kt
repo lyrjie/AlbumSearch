@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -35,8 +36,21 @@ class SearchFragment : Fragment() {
         setupSearchCallback(binding.inputSearchTerm)
         setupSearchFocusClear(binding.inputSearchTerm)
         setupNavigation()
+        setupToaster()
 
         return binding.root
+    }
+
+    /**
+     * Sets up toast displaying
+     */
+    private fun setupToaster() {
+        viewModel.toastMessage.observe(viewLifecycleOwner, {
+            it?.let {
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+                viewModel.onToashShown()
+            }
+        })
     }
 
     private fun setupNavigation() {

@@ -2,7 +2,7 @@ package com.example.albumsearch.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.albumsearch.R
 import com.example.albumsearch.model.network.ApiStatus
 import com.example.albumsearch.model.network.ITunesService
 import com.example.albumsearch.model.network.dto.Album
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 /**
  * ViewModel for search screen
  */
-class SearchViewModel : ViewModel() {
+class SearchViewModel : BaseViewModel() {
 
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -57,7 +57,9 @@ class SearchViewModel : ViewModel() {
         coroutineScope.launch {
             try {
                 _status.value = ApiStatus.LOADING
-                _searchResults.value = ITunesService.searchAlbums(term).sortedBy { it.name }
+                val albums = ITunesService.searchAlbums(term).sortedBy { it.name }
+                _searchResults.value = albums
+                if (albums.isEmpty()) _toastMessage.value = R.string.nothing_was_found
                 _status.value = ApiStatus.DONE
             } catch (exception: Exception) {
                 _status.value = ApiStatus.ERROR

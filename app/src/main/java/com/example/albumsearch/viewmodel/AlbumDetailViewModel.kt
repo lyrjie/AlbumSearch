@@ -3,6 +3,7 @@ package com.example.albumsearch.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.albumsearch.R
 import com.example.albumsearch.model.network.ITunesService
 import com.example.albumsearch.model.network.dto.Album
 import com.example.albumsearch.model.network.dto.LookupEntity
@@ -17,7 +18,7 @@ import java.lang.Exception
  *
  * @property album
  */
-class AlbumDetailViewModel(val album: Album) : ViewModel() {
+class AlbumDetailViewModel(val album: Album) : BaseViewModel() {
 
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -42,6 +43,7 @@ class AlbumDetailViewModel(val album: Album) : ViewModel() {
             try {
                 _tracks.value = ITunesService.getSongs(album.id).sortedBy { it.trackNumber }
             } catch (exception: Exception) {
+                _toastMessage.value = R.string.couldnt_load_track_list
                 _tracks.value = ArrayList()
             }
         }

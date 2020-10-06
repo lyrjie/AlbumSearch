@@ -8,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.albumsearch.R
+import java.util.*
 
 /**
  * Loads the image into [ImageView] using passed [url]
@@ -57,5 +58,20 @@ fun TextView.setNumberWithDot(newText: Int?) {
 fun TextView.setDurationText(millis: Long?) {
     millis?.let {
         text = DateUtils.formatElapsedTime(millis / 1000)
+    }
+}
+
+/**
+ * Sets [TextView]'s text to complete years in [date]
+ *
+ * @param date
+ */
+@BindingAdapter("yearText")
+fun TextView.setYearText(date: Date?) {
+    date?.let {
+        // We convert to GregorianCalendar first, since Date.getYear() is deprecated
+        val calendar = GregorianCalendar.getInstance()
+        calendar.time = date
+        text = calendar.get(Calendar.YEAR).toString()
     }
 }

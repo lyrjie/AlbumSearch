@@ -12,6 +12,7 @@ import java.util.*
  * @property artistName the name of artist(s)
  * @property name name of an album
  * @property coverArtUrl URL of album cover
+ * @property highResolutionCoverArtUrl URL of higher resolution album cover
  */
 // We need to parcelize the class since we are going to pass it between fragments
 @Parcelize
@@ -33,4 +34,11 @@ data class Album(
 
     @Json(name = "primaryGenreName")
     val genre: String
-) : Parcelable
+) : Parcelable {
+
+    val highResolutionCoverArtUrl: String
+        // coverArtUrl contains the definition of preferred resolution which we can replace to get
+        // a higher resolution image
+        get() = coverArtUrl.replace("100x100bb", "400x400bb")
+
+}

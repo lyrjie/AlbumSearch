@@ -21,7 +21,7 @@
 
             <ImageView
                 android:id="@+id/cover_art"
-                imageUrl="@{viewModel.album.coverArtUrl}"
+                imageUrl="@{viewModel.album.highResolutionCoverArtUrl}"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
                 android:layout_margin="@dimen/margin_larger"

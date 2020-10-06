@@ -52,6 +52,10 @@ dependencies {
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$versions.recycler_view"
 
+    // Kotlin coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines_core"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines_android"
+
     testImplementation 'junit:junit:4.13'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

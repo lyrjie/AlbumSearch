@@ -1,6 +1,8 @@
 package com.example.albumsearch.model.network
 
+import com.example.albumsearch.model.network.dto.Album
 import com.example.albumsearch.model.network.dto.Response
+import com.example.albumsearch.model.network.dto.LookupEntity
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -25,5 +27,21 @@ interface Service {
         // no need for over-engineering
         @Query("entity")
         entity: String = "album"
-    ): Response
+    ): Response<Album>
+
+    /**
+     * Loads all entities associated with album with id [albumId]
+     *
+     * @param albumId
+     * @param entity
+     * @return
+     */
+    @GET("lookup")
+    suspend fun getAlbumLookup(
+        @Query("id")
+        albumId: Long,
+
+        @Query("entity")
+        entity: String = "song"
+    ): Response<LookupEntity>
 }

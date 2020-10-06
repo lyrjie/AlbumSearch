@@ -6,7 +6,7 @@ package com.example.albumsearch.model.network.dto
  * @property resultCount amount of results returned
  * @property results
  */
-data class Response(
+data class Response<T>(
     val resultCount: Int,
-    val results: List<Album>
+    val results: List<T>
 )

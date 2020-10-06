@@ -11,6 +11,8 @@ android {
         dataBinding true
     }
 
+    kotlinOptions { jvmTarget = "1.8" }
+
     defaultConfig {
         applicationId "com.example.albumsearch"
         minSdkVersion 16
@@ -55,6 +57,9 @@ dependencies {
     // Kotlin coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines_core"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines_android"
+
+    // Glide for idiomatic image loading
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
 
     testImplementation 'junit:junit:4.13'
 

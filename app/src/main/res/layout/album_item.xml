@@ -17,10 +17,12 @@
 
         <ImageView
             android:id="@+id/cover_art"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/album_art_dimen_small"
             android:layout_height="@dimen/album_art_dimen_small"
             android:adjustViewBounds="true"
             android:contentDescription="@string/album_cover_art"
+            android:padding="@dimen/padding_smaller"
+            app:imageUrl="@{album.coverArtUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

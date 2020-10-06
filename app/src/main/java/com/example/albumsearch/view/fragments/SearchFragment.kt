@@ -8,10 +8,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.albumsearch.R
 import com.example.albumsearch.databinding.FragmentSearchBinding
 import com.example.albumsearch.view.adapters.AlbumAdapter
 import com.example.albumsearch.view.adapters.AlbumOnClickListener
 import com.example.albumsearch.viewmodel.SearchViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : Fragment() {
@@ -32,8 +34,27 @@ class SearchFragment : Fragment() {
 
         setupResultsRecycler(binding.searchResultsRecycler)
         setupSearchCallback(binding.inputSearchTerm)
+        setupNavigation()
 
         return binding.root
+    }
+
+    private fun setupNavigation() {
+        viewModel.navigateToDetails.observe(viewLifecycleOwner, {
+            it?.let {
+                parentFragmentManager.beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.fragment_open_enter,
+                        R.anim.fragment_fade_exit,
+                        R.anim.fragment_fade_enter,
+                        R.anim.fragment_close_exit
+                    )
+                    .addToBackStack(null)
+                    .replace(R.id.main_content, AlbumDetailFragment.newInstance(it))
+                    .commit()
+                viewModel.onDetailsNavigated()
+            }
+        })
     }
 
     /**
@@ -41,7 +62,9 @@ class SearchFragment : Fragment() {
      */
     private fun setupResultsRecycler(searchResultsRecycler: RecyclerView) {
         // Setup RecyclerView.Adapter
-        adapter = AlbumAdapter(AlbumOnClickListener { })
+        adapter = AlbumAdapter(AlbumOnClickListener {
+            viewModel.searchResultClicked(it)
+        })
         searchResultsRecycler.adapter = adapter
 
         // Listen for result updates

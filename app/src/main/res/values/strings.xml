@@ -6,4 +6,5 @@
     <string name="placeholder_album_name">Whenever You Need Somebody</string>
     <string name="placeholder_artist_name">Rick Astley</string>
     <string name="placeholder_album_year">1987</string>
+    <string name="error_opening_album_details">Couldn\'t open album details</string>
 </resources>

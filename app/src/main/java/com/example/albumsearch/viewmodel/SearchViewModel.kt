@@ -40,4 +40,9 @@ class SearchViewModel : ViewModel() {
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+
+        job.cancel()
+    }
 }

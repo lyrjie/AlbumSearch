@@ -8,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.albumsearch.R
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -73,5 +74,17 @@ fun TextView.setYearText(date: Date?) {
         val calendar = GregorianCalendar.getInstance()
         calendar.time = date
         text = calendar.get(Calendar.YEAR).toString()
+    }
+}
+
+/**
+ * Sets [TextView]'s text to user's local date representation of [Date]
+ *
+ * @param date
+ */
+@BindingAdapter("dateText")
+fun TextView.setDateText(date: Date?) {
+    date?.let {
+        text = SimpleDateFormat.getDateInstance().format(date)
     }
 }

@@ -58,6 +58,57 @@
                 app:layout_constraintTop_toBottomOf="@id/album_name"
                 tools:text="@string/placeholder_artist_name" />
 
+            <TextView
+                android:id="@+id/release_date_label"
+                style="@style/album_detail_minor_label"
+                android:text="@string/release_date"
+                app:layout_constraintEnd_toStartOf="@id/release_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/artist_name" />
+
+            <TextView
+                android:id="@+id/release_date"
+                style="@style/album_detail_minor"
+                app:dateText="@{viewModel.album.releaseDate}"
+                app:layout_constraintBaseline_toBaselineOf="@id/release_date_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/release_date_label"
+                tools:text="@string/placeholder_date" />
+
+            <TextView
+                android:id="@+id/genre_label"
+                style="@style/album_detail_minor_label"
+                android:text="@string/genre"
+                app:layout_constraintEnd_toStartOf="@id/release_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/release_date_label" />
+
+            <TextView
+                android:id="@+id/genre"
+                style="@style/album_detail_minor"
+                android:text="@{viewModel.album.genre}"
+                app:layout_constraintBaseline_toBaselineOf="@id/genre_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/release_date_label"
+                tools:text="@string/placeholder_genre" />
+
+            <TextView
+                android:id="@+id/country_label"
+                style="@style/album_detail_minor_label"
+                android:text="@string/country"
+                app:layout_constraintEnd_toStartOf="@id/release_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/genre_label" />
+
+            <TextView
+                android:id="@+id/country"
+                style="@style/album_detail_minor"
+                android:text="@{viewModel.album.country}"
+                app:layout_constraintBaseline_toBaselineOf="@id/country_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/release_date_label"
+                tools:text="@string/placeholder_country" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/track_list"
                 android:layout_width="0dp"
@@ -66,8 +117,22 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/artist_name"
+                app:layout_constraintTop_toBottomOf="@id/country_label"
                 tools:listitem="@layout/track_item" />
+
+            <TextView
+                android:id="@+id/copyright"
+                style="@style/album_detail_minor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_smaller"
+                android:gravity="center"
+                android:text="@{viewModel.album.copyright}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/track_list"
+                tools:text="@tools:sample/lorem" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

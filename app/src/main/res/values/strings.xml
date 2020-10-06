@@ -9,4 +9,10 @@
     <string name="error_opening_album_details">Couldn\'t open album details</string>
     <string name="placeholder_track_name">Never Gonna Give You Up</string>
     <string name="number_with_dot">%1$d.</string>
+    <string name="release_date">Release date:</string>
+    <string name="genre">Genre:</string>
+    <string name="placeholder_genre">Pop</string>
+    <string name="placeholder_date">16 november 1987</string>
+    <string name="country">Country:</string>
+    <string name="placeholder_country">England</string>
 </resources>

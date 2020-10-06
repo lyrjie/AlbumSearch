@@ -29,7 +29,6 @@ data class Album(
     val coverArtUrl: String,
 
     val copyright: String,
-    val country: String,
     val releaseDate: Date,
 
     @Json(name = "primaryGenreName")

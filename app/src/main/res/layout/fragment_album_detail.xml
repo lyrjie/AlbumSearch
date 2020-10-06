@@ -92,33 +92,16 @@
                 app:layout_constraintStart_toEndOf="@id/release_date_label"
                 tools:text="@string/placeholder_genre" />
 
-            <TextView
-                android:id="@+id/country_label"
-                style="@style/album_detail_minor_label"
-                android:text="@string/country"
-                app:layout_constraintEnd_toStartOf="@id/release_date"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/genre_label" />
-
-            <TextView
-                android:id="@+id/country"
-                style="@style/album_detail_minor"
-                android:text="@{viewModel.album.country}"
-                app:layout_constraintBaseline_toBaselineOf="@id/country_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/release_date_label"
-                tools:text="@string/placeholder_country" />
-
             <androidx.recyclerview.widget.RecyclerView
-                android:overScrollMode="never"
                 android:id="@+id/track_list"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/country_label"
+                app:layout_constraintTop_toBottomOf="@id/genre_label"
                 tools:listitem="@layout/track_item" />
 
             <TextView
@@ -126,8 +109,8 @@
                 style="@style/album_detail_minor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_smaller"
                 android:gravity="center"
+                android:padding="@dimen/padding_smaller"
                 android:text="@{viewModel.album.copyright}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

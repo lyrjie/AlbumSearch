@@ -3,6 +3,7 @@ package com.example.albumsearch.model.network.dto
 import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 /**
  * Representation of Album data.
@@ -24,5 +25,12 @@ data class Album(
     val name: String,
 
     @Json(name = "artworkUrl100")
-    val coverArtUrl: String
+    val coverArtUrl: String,
+
+    val copyright: String,
+    val country: String,
+    val releaseDate: Date,
+
+    @Json(name = "primaryGenreName")
+    val genre: String
 ) : Parcelable

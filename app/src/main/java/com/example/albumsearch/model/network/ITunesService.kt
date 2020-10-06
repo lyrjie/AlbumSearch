@@ -4,9 +4,11 @@ import com.example.albumsearch.model.network.dto.Album
 import com.example.albumsearch.model.network.dto.ENTITY_TYPE_TRACK
 import com.example.albumsearch.model.network.dto.LookupEntity
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.*
 
 /**
  * Provides access to ITunes API
@@ -20,6 +22,7 @@ object ITunesService {
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
+        .add(Date::class.java, Rfc3339DateJsonAdapter())
         .build()
 
     private val retrofit = Retrofit.Builder()

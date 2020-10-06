@@ -13,7 +13,6 @@ import com.example.albumsearch.databinding.FragmentSearchBinding
 import com.example.albumsearch.view.adapters.AlbumAdapter
 import com.example.albumsearch.view.adapters.AlbumOnClickListener
 import com.example.albumsearch.viewmodel.SearchViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : Fragment() {
@@ -34,6 +33,7 @@ class SearchFragment : Fragment() {
 
         setupResultsRecycler(binding.searchResultsRecycler)
         setupSearchCallback(binding.inputSearchTerm)
+        setupSearchFocusClear(binding.inputSearchTerm)
         setupNavigation()
 
         return binding.root
@@ -90,6 +90,20 @@ class SearchFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 // We don't need to do anything here since we don't have search suggestions
                 return false
+            }
+        })
+    }
+
+    /**
+     * Sets up [searchView] focus clearing
+     *
+     * @param searchView
+     */
+    private fun setupSearchFocusClear(searchView: SearchView) {
+        viewModel.clearSearchFocus.observe(viewLifecycleOwner, {
+            if (it == true) {
+                searchView.clearFocus()
+                viewModel.onSearchFocusCleared()
             }
         })
     }

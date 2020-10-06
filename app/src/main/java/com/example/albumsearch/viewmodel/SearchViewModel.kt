@@ -33,11 +33,19 @@ class SearchViewModel : ViewModel() {
         get() = _navigateToDetails
 
     /**
+     * True if the search input should lose focus
+     */
+    private val _clearSearchFocus = MutableLiveData<Boolean>()
+    val clearSearchFocus: LiveData<Boolean>
+        get() = _clearSearchFocus
+
+    /**
      * Performs an album search with the provided [term] and updates [searchResults] with the results
      *
      * @param term search keywords
      */
     fun performSearch(term: String) {
+        _clearSearchFocus.value = true
         coroutineScope.launch {
             try {
                 _searchResults.value = ITunesService.searchAlbums(term).sortedBy { it.name }
@@ -61,6 +69,13 @@ class SearchViewModel : ViewModel() {
      */
     fun onDetailsNavigated() {
         _navigateToDetails.value = null
+    }
+
+    /**
+     * Notifies ViewModel about search losing focus
+     */
+    fun onSearchFocusCleared() {
+        _clearSearchFocus.value = null
     }
 
     override fun onCleared() {

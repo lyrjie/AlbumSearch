@@ -32,7 +32,7 @@
             android:id="@+id/album_name"
             style="@style/album_item_text"
             android:text="@{album.name}"
-            android:textSize="@dimen/text_size_larger"
+            android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/artist_name"
             app:layout_constraintEnd_toEndOf="parent"

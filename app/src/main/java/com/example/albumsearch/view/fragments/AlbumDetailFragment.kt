@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.albumsearch.R
+import com.example.albumsearch.databinding.FragmentAlbumDetailBinding
 import com.example.albumsearch.model.network.dto.Album
 import com.example.albumsearch.viewmodel.AlbumDetailViewModel
 import com.example.albumsearch.viewmodel.AlbumDetailViewModelFactory
@@ -52,8 +53,9 @@ class AlbumDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_album_detail, container, false)
+        val binding = FragmentAlbumDetailBinding.inflate(inflater)
+        binding.viewModel = viewModel
+        return binding.root
     }
 
     companion object {

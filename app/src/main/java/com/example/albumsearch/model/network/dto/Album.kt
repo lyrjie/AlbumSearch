@@ -28,11 +28,11 @@ data class Album(
     @Json(name = "artworkUrl100")
     val coverArtUrl: String,
 
-    val copyright: String,
-    val releaseDate: Date,
+    val copyright: String?,
+    val releaseDate: Date?,
 
     @Json(name = "primaryGenreName")
-    val genre: String
+    val genre: String?
 ) : Parcelable {
 
     val highResolutionCoverArtUrl: String

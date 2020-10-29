@@ -19,4 +19,5 @@
     <string name="nothing_was_found">Search returned 0 results</string>
     <string name="enter_search_term">Please enter search term</string>
     <string name="couldnt_load_track_list">Couldn\'t retrieve track list </string>
+    <string name="reload">Reload</string>
 </resources>

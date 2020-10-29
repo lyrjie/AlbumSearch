@@ -55,4 +55,9 @@ class AlbumDetailViewModel(val album: Album) : BaseViewModel() {
         // Cancel pending coroutines
         job.cancel()
     }
+
+    /** Handles refresh button click */
+    fun onRefreshClicked() {
+        getTrackList()
+    }
 }

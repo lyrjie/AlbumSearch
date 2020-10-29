@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.albumsearch.R
 import com.example.albumsearch.model.network.ApiStatus
-import com.example.albumsearch.model.network.ITunesService
+import com.example.albumsearch.model.AlbumRepository
 import com.example.albumsearch.model.network.dto.Album
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +57,7 @@ class SearchViewModel : BaseViewModel() {
         coroutineScope.launch {
             try {
                 _status.value = ApiStatus.LOADING
-                val albums = ITunesService.searchAlbums(term).sortedBy { it.name }
+                val albums = AlbumRepository.searchAlbums(term).sortedBy { it.name }
                 _searchResults.value = albums
                 if (albums.isEmpty()) _toastMessage.value = R.string.nothing_was_found
                 _status.value = ApiStatus.DONE

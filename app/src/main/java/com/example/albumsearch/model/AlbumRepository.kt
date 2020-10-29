@@ -1,5 +1,6 @@
-package com.example.albumsearch.model.network
+package com.example.albumsearch.model
 
+import com.example.albumsearch.model.network.ITunesApi
 import com.example.albumsearch.model.network.dto.Album
 import com.example.albumsearch.model.network.dto.ENTITY_TYPE_TRACK
 import com.example.albumsearch.model.network.dto.LookupEntity
@@ -13,24 +14,29 @@ import java.util.*
 /**
  * Provides access to ITunes API
  */
-object ITunesService {
+object AlbumRepository {
 
     /**
      * Base URL of the API service
      */
     private const val BASE_URL = "https://itunes.apple.com/"
 
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .add(Date::class.java, Rfc3339DateJsonAdapter())
-        .build()
+    private val iTunesService = createITunesService()
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .build()
+    /** Returns ITunesApi implementation */
+    private fun createITunesService(): ITunesApi {
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .add(Date::class.java, Rfc3339DateJsonAdapter())
+            .build()
 
-    private val api = retrofit.create(Service::class.java)
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+
+        return retrofit.create(ITunesApi::class.java)
+    }
 
     /**
      * Performs a search with passed [term] and returns list of [Album]
@@ -39,7 +45,7 @@ object ITunesService {
      * @return
      */
     suspend fun searchAlbums(term: String): List<Album> {
-        return api.search(term, "album").results
+        return iTunesService.search(term, "album").results
     }
 
     /**
@@ -51,7 +57,7 @@ object ITunesService {
     suspend fun getSongs(albumId: Long): List<LookupEntity> {
         // IMPORTANT: ITunes returns bot only songs, but also a containing album even if you
         // specifically ask to only return songs like we do. So we have to further filter it by type
-        return api.getAlbumLookup(albumId).results.filter { it.type == ENTITY_TYPE_TRACK }
+        return iTunesService.getAlbumLookup(albumId).results.filter { it.type == ENTITY_TYPE_TRACK }
     }
 
 }

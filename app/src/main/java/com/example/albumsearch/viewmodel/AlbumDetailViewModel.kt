@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.albumsearch.R
-import com.example.albumsearch.model.network.ITunesService
+import com.example.albumsearch.model.AlbumRepository
 import com.example.albumsearch.model.network.dto.Album
 import com.example.albumsearch.model.network.dto.LookupEntity
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +41,7 @@ class AlbumDetailViewModel(val album: Album) : BaseViewModel() {
     private fun getTrackList() {
         coroutineScope.launch {
             try {
-                _tracks.value = ITunesService.getSongs(album.id).sortedBy { it.trackNumber }
+                _tracks.value = AlbumRepository.getSongs(album.id).sortedBy { it.trackNumber }
             } catch (exception: Exception) {
                 _toastMessage.value = R.string.couldnt_load_track_list
                 _tracks.value = ArrayList()

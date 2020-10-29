@@ -9,7 +9,7 @@ import retrofit2.http.Query
 /**
  * API description
  */
-interface Service {
+interface ITunesApi {
 
     /**
      * Performs a search

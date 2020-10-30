@@ -11,6 +11,11 @@ import retrofit2.http.Query
  */
 interface ITunesApi {
 
+    companion object {
+        /** Base URL of the API endpoints */
+        const val BASE_URL = "https://itunes.apple.com/"
+    }
+
     /**
      * Performs a search
      *

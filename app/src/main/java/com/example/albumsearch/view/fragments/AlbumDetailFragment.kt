@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albumsearch.R
 import com.example.albumsearch.databinding.FragmentAlbumDetailBinding
 import com.example.albumsearch.model.network.dto.Album
 import com.example.albumsearch.view.adapters.LookupEntityAdapter
 import com.example.albumsearch.viewmodel.AlbumDetailViewModel
-import com.example.albumsearch.viewmodel.AlbumDetailViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val ARG_ALBUM = "album"
 
@@ -19,14 +20,16 @@ private const val ARG_ALBUM = "album"
  * [Fragment] displaying the results of an album
  *
  */
+@AndroidEntryPoint
 class AlbumDetailFragment : Fragment() {
 
-    private val viewModel: AlbumDetailViewModel by lazy {
-        ViewModelProvider(
-            this, AlbumDetailViewModelFactory(
-                arguments?.getParcelable(ARG_ALBUM)!!
-            )
-        ).get(AlbumDetailViewModel::class.java)
+    @Inject
+    lateinit var albumDetailViewModelFactory: AlbumDetailViewModel.AssistedFactory
+
+    private val viewModel: AlbumDetailViewModel by viewModels {
+        AlbumDetailViewModel.provideFactory(
+            albumDetailViewModelFactory, arguments?.getParcelable(ARG_ALBUM)!!
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

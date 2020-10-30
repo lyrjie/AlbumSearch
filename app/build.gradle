@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 30
@@ -42,6 +43,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
     implementation "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
     implementation "androidx.legacy:legacy-support-v4:$versions.legacy_support"
+    implementation "androidx.fragment:fragment-ktx:$versions.fragment"
 
     // Moshi for JSON parsing
     implementation "com.squareup.moshi:moshi:$versions.moshi"
@@ -62,6 +64,15 @@ dependencies {
 
     // Glide for idiomatic image loading
     implementation "com.github.bumptech.glide:glide:$versions.glide"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$versions.hilt"
+    kapt "com.google.dagger:hilt-android-compiler:$versions.hilt"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$versions.hilt_lifecycle"
+    kapt "androidx.hilt:hilt-compiler:$versions.hilt_lifecycle"
+    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$versions.hilt_assisted_inject"
+    kapt "com.squareup.inject:assisted-inject-processor-dagger2:$versions.hilt_assisted_inject"
+
 
     testImplementation 'junit:junit:4.13'
 

@@ -10,33 +10,16 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Provides access to ITunes API
+ *
+ * @property iTunesService API service
  */
-object AlbumRepository {
-
-    /**
-     * Base URL of the API service
-     */
-    private const val BASE_URL = "https://itunes.apple.com/"
-
-    private val iTunesService = createITunesService()
-
-    /** Returns ITunesApi implementation */
-    private fun createITunesService(): ITunesApi {
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .add(Date::class.java, Rfc3339DateJsonAdapter())
-            .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-
-        return retrofit.create(ITunesApi::class.java)
-    }
+class AlbumRepository
+@Inject
+constructor(private val iTunesService: ITunesApi) {
 
     /**
      * Performs a search with passed [term] and returns list of [Album]

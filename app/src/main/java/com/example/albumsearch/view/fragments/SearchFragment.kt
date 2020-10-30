@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albumsearch.R
@@ -14,11 +15,13 @@ import com.example.albumsearch.databinding.FragmentSearchBinding
 import com.example.albumsearch.view.adapters.AlbumAdapter
 import com.example.albumsearch.view.adapters.AlbumOnClickListener
 import com.example.albumsearch.viewmodel.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private val viewModel: SearchViewModel by lazy { ViewModelProvider(this).get(SearchViewModel::class.java) }
+    private val viewModel: SearchViewModel by viewModels()
 
     /**
      * Search results adapter

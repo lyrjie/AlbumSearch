@@ -1,10 +1,11 @@
 package com.example.albumsearch.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.albumsearch.R
-import com.example.albumsearch.model.network.ApiStatus
 import com.example.albumsearch.model.AlbumRepository
+import com.example.albumsearch.model.network.ApiStatus
 import com.example.albumsearch.model.network.dto.Album
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,10 @@ import kotlinx.coroutines.launch
 /**
  * ViewModel for search screen
  */
-class SearchViewModel : BaseViewModel() {
+
+class SearchViewModel
+@ViewModelInject
+constructor(private val repository: AlbumRepository) : BaseViewModel() {
 
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
@@ -57,7 +61,7 @@ class SearchViewModel : BaseViewModel() {
         coroutineScope.launch {
             try {
                 _status.value = ApiStatus.LOADING
-                val albums = AlbumRepository.searchAlbums(term).sortedBy { it.name }
+                val albums = repository.searchAlbums(term).sortedBy { it.name }
                 _searchResults.value = albums
                 if (albums.isEmpty()) _toastMessage.value = R.string.nothing_was_found
                 _status.value = ApiStatus.DONE

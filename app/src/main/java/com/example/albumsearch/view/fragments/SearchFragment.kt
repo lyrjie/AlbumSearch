@@ -13,7 +13,6 @@ import com.example.albumsearch.databinding.FragmentSearchBinding
 import com.example.albumsearch.view.adapters.AlbumAdapter
 import com.example.albumsearch.view.adapters.AlbumOnClickListener
 import com.example.albumsearch.viewmodel.SearchViewModel
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -36,16 +35,8 @@ class SearchFragment : Fragment() {
         setupSearchCallback(binding.inputSearchTerm)
         setupSearchFocusClear(binding.inputSearchTerm)
         setupNavigation()
-        setupToaster()
 
         return binding.root
-    }
-
-    /** Sets up toast displaying */
-    private fun setupToaster() {
-        viewModel.toastMessage.observe(viewLifecycleOwner, {
-            Snackbar.make(requireView(), it, Snackbar.LENGTH_INDEFINITE).show()
-        })
     }
 
     /** Links up navigation to [viewModel] */

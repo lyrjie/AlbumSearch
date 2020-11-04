@@ -8,13 +8,13 @@ import com.example.albumsearch.model.database.entities.TrackEntity
 @Dao
 interface AlbumDao {
 
-    @Query("SELECT * FROM albumentity")
+    @Query("SELECT * FROM ${AlbumEntity.TABLE_NAME}")
     fun getAlbums(): LiveData<List<AlbumEntity>>
 
-    @Query("SELECT * FROM albumentity WHERE name LIKE '%' || :query || '%' OR artistName LIKE '%' || :query || '%' ORDER BY name")
+    @Query("SELECT * FROM ${AlbumEntity.TABLE_NAME} WHERE name LIKE '%' || :query || '%' OR artistName LIKE '%' || :query || '%' ORDER BY name")
     fun searchAlbums(query: String): LiveData<List<AlbumEntity>>
 
-    @Query("SELECT * FROM trackentity WHERE albumId = :albumId ORDER BY trackNumber")
+    @Query("SELECT * FROM ${TrackEntity.TABLE_NAME} WHERE albumId = :albumId ORDER BY trackNumber")
     fun getTracksByAlbumId(albumId: Long): LiveData<List<TrackEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -26,7 +26,7 @@ interface AlbumDao {
     @Update
     suspend fun updateAlbum(album: AlbumEntity)
 
-    @Query("SELECT count(*) FROM trackentity WHERE albumId = :albumId")
+    @Query("SELECT count(*) FROM ${TrackEntity.TABLE_NAME} WHERE albumId = :albumId")
     suspend fun getTrackCountByAlbumId(albumId: Long): Long
 
 }

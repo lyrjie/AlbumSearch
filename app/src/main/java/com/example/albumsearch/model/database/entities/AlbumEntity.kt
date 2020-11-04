@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-@Entity
+@Entity(tableName = AlbumEntity.TABLE_NAME)
 data class AlbumEntity(
     @PrimaryKey
     val id: Long,
@@ -18,4 +18,10 @@ data class AlbumEntity(
     val copyright: String?,
     val releaseDate: Date?,
     val genre: String?
-) : Parcelable
+) : Parcelable {
+
+    companion object {
+        const val TABLE_NAME = "album"
+    }
+
+}

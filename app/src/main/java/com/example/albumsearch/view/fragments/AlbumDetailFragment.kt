@@ -69,10 +69,7 @@ class AlbumDetailFragment : Fragment() {
     /** Sets up toast displaying */
     private fun setupToaster() {
         viewModel.toastMessage.observe(viewLifecycleOwner, {
-            it?.let {
-                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
-                viewModel.onToashShown()
-            }
+            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         })
     }
 

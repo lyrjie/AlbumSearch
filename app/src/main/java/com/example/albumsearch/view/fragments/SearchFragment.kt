@@ -44,29 +44,23 @@ class SearchFragment : Fragment() {
     /** Sets up toast displaying */
     private fun setupToaster() {
         viewModel.toastMessage.observe(viewLifecycleOwner, {
-            it?.let {
-                Snackbar.make(requireView(), it, Snackbar.LENGTH_INDEFINITE).show()
-                viewModel.onToashShown()
-            }
+            Snackbar.make(requireView(), it, Snackbar.LENGTH_INDEFINITE).show()
         })
     }
 
     /** Links up navigation to [viewModel] */
     private fun setupNavigation() {
         viewModel.navigateToDetails.observe(viewLifecycleOwner, {
-            it?.let {
-                parentFragmentManager.beginTransaction()
-                    .setCustomAnimations(
-                        R.anim.fragment_open_enter,
-                        R.anim.fragment_fade_exit,
-                        R.anim.fragment_fade_enter,
-                        R.anim.fragment_close_exit
-                    )
-                    .addToBackStack(null)
-                    .replace(R.id.main_content, AlbumDetailFragment.newInstance(it))
-                    .commit()
-                viewModel.onDetailsNavigated()
-            }
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.fragment_open_enter,
+                    R.anim.fragment_fade_exit,
+                    R.anim.fragment_fade_enter,
+                    R.anim.fragment_close_exit
+                )
+                .addToBackStack(null)
+                .replace(R.id.main_content, AlbumDetailFragment.newInstance(it))
+                .commit()
         })
     }
 
@@ -108,10 +102,7 @@ class SearchFragment : Fragment() {
     /** Sets up [searchView] focus clearing */
     private fun setupSearchFocusClear(searchView: SearchView) {
         viewModel.clearSearchFocus.observe(viewLifecycleOwner, {
-            if (it == true) {
-                searchView.clearFocus()
-                viewModel.onSearchFocusCleared()
-            }
+            if (it) searchView.clearFocus()
         })
     }
 }

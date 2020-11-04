@@ -9,6 +9,7 @@ import com.example.albumsearch.model.AlbumRepository
 import com.example.albumsearch.model.database.entities.AlbumEntity
 import com.example.albumsearch.model.network.ApiStatus
 import com.example.albumsearch.model.network.dto.AlbumDto
+import com.example.albumsearch.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 /** ViewModel for search screen */
@@ -26,14 +27,10 @@ constructor(private val repository: AlbumRepository) : BaseViewModel() {
     }
 
     /** [AlbumDto] to details of which to navigate */
-    private val _navigateToDetails = MutableLiveData<AlbumEntity?>()
-    val navigateToDetails: LiveData<AlbumEntity?>
-        get() = _navigateToDetails
+    val navigateToDetails = SingleLiveEvent<AlbumEntity>()
 
     /** True if the search input should lose focus */
-    private val _clearSearchFocus = MutableLiveData<Boolean>()
-    val clearSearchFocus: LiveData<Boolean>
-        get() = _clearSearchFocus
+    val clearSearchFocus = SingleLiveEvent<Boolean>()
 
     /** Status of the last API call */
     private val _status = MutableLiveData<ApiStatus>()
@@ -46,7 +43,7 @@ constructor(private val repository: AlbumRepository) : BaseViewModel() {
      * @param term search keywords
      */
     fun performSearch(term: String) {
-        _clearSearchFocus.value = true
+        clearSearchFocus.value = true
         viewModelScope.launch {
             try {
                 _status.value = ApiStatus.LOADING
@@ -61,17 +58,7 @@ constructor(private val repository: AlbumRepository) : BaseViewModel() {
 
     /** Notifies ViewModel about the [album] search result being clicked */
     fun searchResultClicked(album: AlbumEntity) {
-        _navigateToDetails.value = album
-    }
-
-    /** Notifies ViewModel about the navigation being completed */
-    fun onDetailsNavigated() {
-        _navigateToDetails.value = null
-    }
-
-    /** Notifies ViewModel about search losing focus */
-    fun onSearchFocusCleared() {
-        _clearSearchFocus.value = null
+        navigateToDetails.value = album
     }
 
 }

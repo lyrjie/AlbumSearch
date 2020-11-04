@@ -50,7 +50,7 @@ constructor(
             try {
                 repository.fetchTracksIfRequired(album, isForced)
             } catch (exception: Exception) {
-                _toastMessage.value = R.string.couldnt_load_track_list
+                toastMessage.value = R.string.couldnt_load_track_list
             }
         }
     }

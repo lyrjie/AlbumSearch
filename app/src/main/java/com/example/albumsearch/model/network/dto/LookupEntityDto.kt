@@ -2,26 +2,35 @@ package com.example.albumsearch.model.network.dto
 
 import com.squareup.moshi.Json
 
-const val ENTITY_TYPE_TRACK = "track"
 
 /**
- * Entity data (entity could be a collection (album) or song
+ * Entity data (entity could be a collection (album) or a song)
  *
- * @property name track name
- * @property trackNumber number in the album
- * @property trackTimeMillis track duration in milliseconds
+ * @property name entity name
+ * @property trackId iTunes id of the track (track-only)
+ * @property trackNumber number in the collection (track-only)
+ * @property trackTimeMillis duration in milliseconds (track-only)
  * @property type entity type
  */
-data class LookupEntity(
+data class LookupEntityDto(
     @Json(name = "trackName")
     val name: String?,
 
+    @Json(name = "collectionId")
+    val albumId: Long?,
+    val trackId: Long?,
     val trackNumber: Int?,
     val trackTimeMillis: Long?,
 
     @Json(name = "wrapperType")
     val type: String
-)
+) {
+    companion object {
+        private const val ENTITY_TYPE_TRACK = "track"
+    }
+
+    val isTrack = type == ENTITY_TYPE_TRACK
+}
 
 // DISCLAIMER: It being "LookupEntity" and not "Song" is related to ITunes for some reason also
 // returning album in a JSON array along with songs, even when you specifically ask for songs.

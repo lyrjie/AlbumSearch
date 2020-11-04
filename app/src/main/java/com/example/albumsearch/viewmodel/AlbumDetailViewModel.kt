@@ -1,13 +1,11 @@
 package com.example.albumsearch.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.albumsearch.R
 import com.example.albumsearch.model.AlbumRepository
-import com.example.albumsearch.model.network.dto.Album
-import com.example.albumsearch.model.network.dto.LookupEntity
+import com.example.albumsearch.model.database.entities.AlbumEntity
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +24,7 @@ class AlbumDetailViewModel
 constructor(
     private val repository: AlbumRepository,
     @Assisted
-    val album: Album
+    val album: AlbumEntity
 ) : BaseViewModel() {
 
     private val job = Job()
@@ -35,25 +33,27 @@ constructor(
     /**
      * Track list to display
      */
-    private val _tracks = MutableLiveData<List<LookupEntity>>()
-    val tracks: LiveData<List<LookupEntity>>
-        get() = _tracks
+    val tracks = repository.getTracks(album)
+
+    /**
+     * URL of the image to be displayed as a cover art
+     */
+    val coverArtUrl = MutableLiveData(album.highResolutionCoverArtUrl)
 
     init {
-        getTrackList()
+        refreshTrackList(isForced = false)
     }
 
     /**
-     * Updates [_tracks] with the track list loaded with [album]'s id
-     *
+     * Requests [repository] to fetch track list of the [album]. [repository] can be forced to do so
+     * even if it's not necessary by passing true to [isForced].
      */
-    private fun getTrackList() {
+    private fun refreshTrackList(isForced: Boolean) {
         coroutineScope.launch {
             try {
-                _tracks.value = repository.getSongs(album.id).sortedBy { it.trackNumber }
+                repository.fetchTracksIfRequired(album, isForced)
             } catch (exception: Exception) {
                 _toastMessage.value = R.string.couldnt_load_track_list
-                _tracks.value = ArrayList()
             }
         }
     }
@@ -67,18 +67,19 @@ constructor(
 
     /** Handles refresh button click */
     fun onRefreshClicked() {
-        getTrackList()
+        coverArtUrl.postValue(coverArtUrl.value)
+        refreshTrackList(isForced = true)
     }
 
     @AssistedInject.Factory
     interface AssistedFactory {
-        fun create(album: Album): AlbumDetailViewModel
+        fun create(album: AlbumEntity): AlbumDetailViewModel
     }
 
     companion object {
         fun provideFactory(
             assistedFactory: AssistedFactory,
-            album: Album
+            album: AlbumEntity
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {

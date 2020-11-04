@@ -1,46 +1,76 @@
 package com.example.albumsearch.model
 
+import androidx.lifecycle.LiveData
+import com.example.albumsearch.model.database.AlbumDao
+import com.example.albumsearch.model.database.entities.AlbumEntity
+import com.example.albumsearch.model.database.entities.TrackEntity
 import com.example.albumsearch.model.network.ITunesApi
-import com.example.albumsearch.model.network.dto.Album
-import com.example.albumsearch.model.network.dto.ENTITY_TYPE_TRACK
-import com.example.albumsearch.model.network.dto.LookupEntity
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.*
 import javax.inject.Inject
 
 /**
- * Provides access to ITunes API
+ * Repository providing access to album data
  *
- * @property iTunesService API service
+ * @property iTunesService album API service
+ * @property albumDao album persistence DTO
  */
 class AlbumRepository
 @Inject
-constructor(private val iTunesService: ITunesApi) {
+constructor(
+    private val iTunesService: ITunesApi,
+    private val albumDao: AlbumDao
+) {
 
     /**
-     * Performs a search with passed [term] and returns list of [Album]
+     * Returns [LiveData] with list of [AlbumEntity] returned by searching with [term]
      *
-     * @param term
-     * @return
+     * @param term keywords to search by
      */
-    suspend fun searchAlbums(term: String): List<Album> {
-        return iTunesService.search(term, "album").results
+    fun getFilteredAlbums(term: String): LiveData<List<AlbumEntity>> {
+        return albumDao.searchAlbums(term)
     }
 
     /**
-     * Returns songs that belong to the album with id of [albumId]
+     * Updates repository with external search results
      *
-     * @param albumId
-     * @return
+     * @param term keywords to search by
      */
-    suspend fun getSongs(albumId: Long): List<LookupEntity> {
-        // IMPORTANT: ITunes returns bot only songs, but also a containing album even if you
-        // specifically ask to only return songs like we do. So we have to further filter it by type
-        return iTunesService.getAlbumLookup(albumId).results.filter { it.type == ENTITY_TYPE_TRACK }
+    suspend fun performSearch(term: String) {
+        val searchResults = iTunesService.search(term, "album").results.map { it.toDomain() }
+        albumDao.addAlbums(searchResults)
+    }
+
+    /**
+     * Returns the tracks of the [album]
+     *
+     * @param album album to return tracks for
+     */
+    fun getTracks(album: AlbumEntity): LiveData<List<TrackEntity>> {
+        return albumDao.getTracksByAlbumId(album.id)
+    }
+
+    /**
+     * Fetches the track list for album if it wasn't fetched already
+     * (this check can be bypassed by passing `true` to [isForced])
+     *
+     * @param album album to fetch songs for
+     * @param isForced if true, fetches the track list even if it was already loaded
+     */
+    suspend fun fetchTracksIfRequired(album: AlbumEntity, isForced: Boolean = false) {
+        if (isTrackListPersisted(album) || isForced) {
+            val tracks = iTunesService.getAlbumLookup(album.id).results
+                .filter { it.isTrack }
+                .mapNotNull { it.toDomainTrack() }
+            albumDao.addTracks(tracks)
+        }
+    }
+
+    /**
+     * Returns `true` if the tracks for [album] are persisted
+     *
+     * @param album album to perform check for
+     */
+    private suspend fun isTrackListPersisted(album: AlbumEntity): Boolean {
+        return albumDao.getTrackCountByAlbumId(album.id) == 0L
     }
 
 }

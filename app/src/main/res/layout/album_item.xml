@@ -5,7 +5,7 @@
 
         <variable
             name="album"
-            type="com.example.albumsearch.model.network.dto.Album" />
+            type="com.example.albumsearch.model.database.entities.AlbumEntity" />
 
     </data>
 

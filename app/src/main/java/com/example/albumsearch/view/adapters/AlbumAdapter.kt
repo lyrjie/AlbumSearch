@@ -6,20 +6,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albumsearch.databinding.AlbumItemBinding
-import com.example.albumsearch.model.network.dto.Album
+import com.example.albumsearch.model.database.entities.AlbumEntity
 
 /**
- * [ListAdapter] for albums
+ * [ListAdapter] for albums ([AlbumEntity])
  *
  * @property onClickListener onClick listener to wire up to entries
  */
 class AlbumAdapter(private val onClickListener: AlbumOnClickListener) :
-    ListAdapter<Album, AlbumAdapter.ViewHolder>(AlbumDiffCallback()) {
+    ListAdapter<AlbumEntity, AlbumAdapter.ViewHolder>(AlbumDiffCallback()) {
 
     /**
      * Item ViewHolder
-     *
-     * @property binding
      */
     class ViewHolder private constructor(private val binding: AlbumItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -27,9 +25,6 @@ class AlbumAdapter(private val onClickListener: AlbumOnClickListener) :
         companion object {
             /**
              * Returns [ViewHolder] inflated using passed [parent]
-             *
-             * @param parent
-             * @return
              */
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -43,7 +38,7 @@ class AlbumAdapter(private val onClickListener: AlbumOnClickListener) :
          *
          * @param album
          */
-        fun bind(album: Album) {
+        fun bind(album: AlbumEntity) {
             binding.album = album
             binding.executePendingBindings()
         }
@@ -62,11 +57,11 @@ class AlbumAdapter(private val onClickListener: AlbumOnClickListener) :
 }
 
 /**
- * Naive [DiffUtil.ItemCallback] for [Album]
+ * Simple [DiffUtil.ItemCallback] for [AlbumEntity]
  */
-class AlbumDiffCallback : DiffUtil.ItemCallback<Album>() {
-    override fun areItemsTheSame(oldItem: Album, newItem: Album) = oldItem === newItem
-    override fun areContentsTheSame(oldItem: Album, newItem: Album) = oldItem == newItem
+class AlbumDiffCallback : DiffUtil.ItemCallback<AlbumEntity>() {
+    override fun areItemsTheSame(oldItem: AlbumEntity, newItem: AlbumEntity) = oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: AlbumEntity, newItem: AlbumEntity) = oldItem == newItem
 }
 
 /**
@@ -74,6 +69,6 @@ class AlbumDiffCallback : DiffUtil.ItemCallback<Album>() {
  *
  * @property clickListener
  */
-class AlbumOnClickListener(val clickListener: (album: Album) -> Unit) {
-    fun onClick(album: Album) = clickListener(album)
+class AlbumOnClickListener(val clickListener: (album: AlbumEntity) -> Unit) {
+    fun onClick(album: AlbumEntity) = clickListener(album)
 }

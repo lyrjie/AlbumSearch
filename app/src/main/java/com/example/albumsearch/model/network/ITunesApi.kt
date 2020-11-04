@@ -1,8 +1,8 @@
 package com.example.albumsearch.model.network
 
-import com.example.albumsearch.model.network.dto.Album
+import com.example.albumsearch.model.network.dto.AlbumDto
 import com.example.albumsearch.model.network.dto.Response
-import com.example.albumsearch.model.network.dto.LookupEntity
+import com.example.albumsearch.model.network.dto.LookupEntityDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,6 +14,9 @@ interface ITunesApi {
     companion object {
         /** Base URL of the API endpoints */
         const val BASE_URL = "https://itunes.apple.com/"
+
+        const val IMAGE_URL_RESOLUTION_DEFAULT = "100x100bb"
+        const val IMAGE_URL_RESOLUTION_HIGH = "400x400bb"
     }
 
     /**
@@ -32,7 +35,7 @@ interface ITunesApi {
         // no need for over-engineering
         @Query("entity")
         entity: String = "album"
-    ): Response<Album>
+    ): Response<AlbumDto>
 
     /**
      * Loads all entities associated with album with id [albumId]
@@ -48,5 +51,5 @@ interface ITunesApi {
 
         @Query("entity")
         entity: String = "song"
-    ): Response<LookupEntity>
+    ): Response<LookupEntityDto>
 }

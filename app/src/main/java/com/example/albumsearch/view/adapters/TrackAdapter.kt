@@ -6,29 +6,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albumsearch.databinding.TrackItemBinding
-import com.example.albumsearch.model.network.dto.Album
-import com.example.albumsearch.model.network.dto.LookupEntity
-import com.example.albumsearch.view.adapters.AlbumAdapter.ViewHolder
+import com.example.albumsearch.model.database.entities.TrackEntity
 
 /**
- * [ListAdapter] for [LookupEntity]
+ * [ListAdapter] for [TrackEntity]
  */
-class LookupEntityAdapter :
-    ListAdapter<LookupEntity, LookupEntityAdapter.ViewHolder>(SongDiffCallback()) {
+class TrackAdapter :
+    ListAdapter<TrackEntity, TrackAdapter.ViewHolder>(TrackDiffCallback()) {
 
     /**
      * Item ViewHolder
-     *
-     * @property binding
      */
     class ViewHolder private constructor(private val binding: TrackItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         companion object {
             /**
              * Returns [ViewHolder] inflated using passed [parent]
-             *
-             * @param parent
-             * @return
              */
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -38,12 +31,10 @@ class LookupEntityAdapter :
         }
 
         /**
-         * Updates [ViewHolder] with passed [lookupEntity]
-         *
-         * @param lookupEntity
+         * Updates [ViewHolder] with passed [track]
          */
-        fun bind(lookupEntity: LookupEntity) {
-            binding.track = lookupEntity
+        fun bind(track: TrackEntity) {
+            binding.track = track
             binding.executePendingBindings()
         }
     }
@@ -59,10 +50,11 @@ class LookupEntityAdapter :
 }
 
 /**
- * Naive [DiffUtil.ItemCallback] for [LookupEntity]
+ * Simple [DiffUtil.ItemCallback] for [TrackEntity]
  */
-class SongDiffCallback : DiffUtil.ItemCallback<LookupEntity>() {
-    override fun areItemsTheSame(oldItem: LookupEntity, newItem: LookupEntity) = oldItem === newItem
-    override fun areContentsTheSame(oldItem: LookupEntity, newItem: LookupEntity) =
-        oldItem == newItem
+class TrackDiffCallback : DiffUtil.ItemCallback<TrackEntity>() {
+    override fun areItemsTheSame(oldItem: TrackEntity, newItem: TrackEntity) =
+        oldItem.id == newItem.id
+
+    override fun areContentsTheSame(oldItem: TrackEntity, newItem: TrackEntity) = oldItem == newItem
 }

@@ -27,4 +27,6 @@ versions.hilt = "2.28-alpha"
 versions.hilt_lifecycle = "1.0.0-alpha02"
 versions.hilt_assisted_inject = "0.6.0"
 
+versions.room = "2.2.5"
+
 ext.versions = versions

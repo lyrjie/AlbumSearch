@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.albumsearch"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -49,6 +49,7 @@ dependencies {
     implementation "com.squareup.moshi:moshi:$versions.moshi"
     implementation "com.squareup.moshi:moshi-kotlin:$versions.moshi"
     implementation "com.squareup.moshi:moshi-adapters:$versions.moshi"
+    implementation 'com.google.android.material:material:1.2.1'
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi"
 
     // Retrofit for network calls
@@ -73,6 +74,10 @@ dependencies {
     compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$versions.hilt_assisted_inject"
     kapt "com.squareup.inject:assisted-inject-processor-dagger2:$versions.hilt_assisted_inject"
 
+    // Room
+    implementation "androidx.room:room-runtime:$versions.room"
+    kapt "androidx.room:room-compiler:$versions.room"
+    implementation "androidx.room:room-ktx:$versions.room"
 
     testImplementation 'junit:junit:4.13'
 

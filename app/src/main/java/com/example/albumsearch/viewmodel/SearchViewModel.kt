@@ -3,14 +3,12 @@ package com.example.albumsearch.viewmodel
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.albumsearch.R
+import androidx.lifecycle.Transformations
 import com.example.albumsearch.model.AlbumRepository
+import com.example.albumsearch.model.database.entities.AlbumEntity
 import com.example.albumsearch.model.network.ApiStatus
-import com.example.albumsearch.model.network.dto.Album
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.example.albumsearch.model.network.dto.AlbumDto
+import kotlinx.coroutines.*
 
 /**
  * ViewModel for search screen
@@ -24,17 +22,22 @@ constructor(private val repository: AlbumRepository) : BaseViewModel() {
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     /**
-     * Results of the last performed search
+     * Keyphrase to search by
      */
-    private val _searchResults = MutableLiveData<List<Album>>()
-    val searchResults: LiveData<List<Album>>
-        get() = _searchResults
+    private val searchTerm = MutableLiveData<String>()
 
     /**
-     * [Album] to details of which to navigate
+     * Results of the last performed search
      */
-    private val _navigateToDetails = MutableLiveData<Album?>()
-    val navigateToDetails: LiveData<Album?>
+    val searchResults = Transformations.switchMap(searchTerm) {
+        repository.getFilteredAlbums(it)
+    }
+
+    /**
+     * [AlbumDto] to details of which to navigate
+     */
+    private val _navigateToDetails = MutableLiveData<AlbumEntity?>()
+    val navigateToDetails: LiveData<AlbumEntity?>
         get() = _navigateToDetails
 
     /**
@@ -61,13 +64,11 @@ constructor(private val repository: AlbumRepository) : BaseViewModel() {
         coroutineScope.launch {
             try {
                 _status.value = ApiStatus.LOADING
-                val albums = repository.searchAlbums(term).sortedBy { it.name }
-                _searchResults.value = albums
-                if (albums.isEmpty()) _toastMessage.value = R.string.nothing_was_found
+                searchTerm.value = term
+                repository.performSearch(term)
                 _status.value = ApiStatus.DONE
             } catch (exception: Exception) {
                 _status.value = ApiStatus.ERROR
-                _searchResults.value = ArrayList()
             }
         }
     }
@@ -77,7 +78,7 @@ constructor(private val repository: AlbumRepository) : BaseViewModel() {
      *
      * @param album
      */
-    fun searchResultClicked(album: Album) {
+    fun searchResultClicked(album: AlbumEntity) {
         _navigateToDetails.value = album
     }
 

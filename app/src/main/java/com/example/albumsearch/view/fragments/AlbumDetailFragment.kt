@@ -8,8 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.albumsearch.R
 import com.example.albumsearch.databinding.FragmentAlbumDetailBinding
-import com.example.albumsearch.model.network.dto.Album
-import com.example.albumsearch.view.adapters.LookupEntityAdapter
+import com.example.albumsearch.model.database.entities.AlbumEntity
+import com.example.albumsearch.view.adapters.TrackAdapter
 import com.example.albumsearch.viewmodel.AlbumDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -50,6 +50,7 @@ class AlbumDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentAlbumDetailBinding.inflate(inflater)
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
         setupTrackRecycler(binding.trackList)
@@ -81,23 +82,21 @@ class AlbumDetailFragment : Fragment() {
     }
 
     /**
-     * Initializes [trackList] to display tracks provided by [viewModel]
-     *
-     * @param trackList
+     * Initializes [trackRecycler] to display tracks provided by [viewModel]
      */
-    private fun setupTrackRecycler(trackList: RecyclerView) {
-        val adapter = LookupEntityAdapter()
-        trackList.adapter = adapter
+    private fun setupTrackRecycler(trackRecycler: RecyclerView) {
+        val adapter = TrackAdapter()
+        trackRecycler.adapter = adapter
         viewModel.tracks.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
     }
 
     /**
-     * Check passed arguments and navigate back with error message if required argument is null
+     * Checks passed arguments and navigates back with error message if required argument is null
      */
     private fun validateArguments() {
-        if (arguments?.getParcelable<Album>(ARG_ALBUM) == null) {
+        if (arguments?.getParcelable<AlbumEntity>(ARG_ALBUM) == null) {
             parentFragmentManager.popBackStack()
             Toast.makeText(
                 activity,
@@ -112,11 +111,10 @@ class AlbumDetailFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment
          *
-         * @param album [Album] to show details for
-         * @return A new instance of fragment [AlbumDetailFragment]
+         * @param album album to show details for
          */
         @JvmStatic
-        fun newInstance(album: Album) =
+        fun newInstance(album: AlbumEntity) =
             AlbumDetailFragment().apply {
                 arguments = Bundle().apply { putParcelable(ARG_ALBUM, album) }
             }

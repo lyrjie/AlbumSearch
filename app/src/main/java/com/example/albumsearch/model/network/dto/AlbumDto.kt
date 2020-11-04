@@ -1,8 +1,6 @@
 package com.example.albumsearch.model.network.dto
 
-import android.os.Parcelable
 import com.squareup.moshi.Json
-import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 /**
@@ -12,11 +10,12 @@ import java.util.*
  * @property artistName the name of artist(s)
  * @property name name of an album
  * @property coverArtUrl URL of album cover
- * @property highResolutionCoverArtUrl URL of higher resolution album cover
+ * @property copyright copyright text
+ * @property releaseDate date of the album release
+ * @property genre primary genre
  */
 // We need to parcelize the class since we are going to pass it between fragments
-@Parcelize
-data class Album(
+data class AlbumDto(
     @Json(name = "collectionId")
     val id: Long,
 
@@ -33,11 +32,4 @@ data class Album(
 
     @Json(name = "primaryGenreName")
     val genre: String?
-) : Parcelable {
-
-    val highResolutionCoverArtUrl: String
-        // coverArtUrl contains the definition of preferred resolution which we can replace to get
-        // a higher resolution image
-        get() = coverArtUrl.replace("100x100bb", "400x400bb")
-
-}
+)

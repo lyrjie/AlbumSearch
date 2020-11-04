@@ -36,7 +36,9 @@ constructor(
     val tracks = repository.getTracks(album)
 
     /**
-     * URL of the image to be displayed as a cover art
+     * URL of the image to be displayed as a cover art.
+     * It being a separate field is deliberate: when the "refresh" is clicked, we reassign it,
+     * which initiates the image reload in the view bound to this url
      */
     val coverArtUrl = MutableLiveData(album.highResolutionCoverArtUrl)
 

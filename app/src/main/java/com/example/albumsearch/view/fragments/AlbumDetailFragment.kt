@@ -16,10 +16,7 @@ import javax.inject.Inject
 
 private const val ARG_ALBUM = "album"
 
-/**
- * [Fragment] displaying the results of an album
- *
- */
+/** [Fragment] displaying the results of an album */
 @AndroidEntryPoint
 class AlbumDetailFragment : Fragment() {
 
@@ -69,9 +66,7 @@ class AlbumDetailFragment : Fragment() {
         }
     }
 
-    /**
-     * Sets up toast displaying
-     */
+    /** Sets up toast displaying */
     private fun setupToaster() {
         viewModel.toastMessage.observe(viewLifecycleOwner, {
             it?.let {
@@ -81,9 +76,7 @@ class AlbumDetailFragment : Fragment() {
         })
     }
 
-    /**
-     * Initializes [trackRecycler] to display tracks provided by [viewModel]
-     */
+    /** Initializes [trackRecycler] to display tracks provided by [viewModel] */
     private fun setupTrackRecycler(trackRecycler: RecyclerView) {
         val adapter = TrackAdapter()
         trackRecycler.adapter = adapter
@@ -92,9 +85,7 @@ class AlbumDetailFragment : Fragment() {
         })
     }
 
-    /**
-     * Checks passed arguments and navigates back with error message if required argument is null
-     */
+    /** Checks passed arguments and navigates back with error message if required argument is null */
     private fun validateArguments() {
         if (arguments?.getParcelable<AlbumEntity>(ARG_ALBUM) == null) {
             parentFragmentManager.popBackStack()

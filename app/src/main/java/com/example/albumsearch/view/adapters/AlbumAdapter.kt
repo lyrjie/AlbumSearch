@@ -16,9 +16,7 @@ import com.example.albumsearch.model.database.entities.AlbumEntity
 class AlbumAdapter(private val onClickListener: AlbumOnClickListener) :
     ListAdapter<AlbumEntity, AlbumAdapter.ViewHolder>(AlbumDiffCallback()) {
 
-    /**
-     * Item ViewHolder
-     */
+    /** Item ViewHolder */
     class ViewHolder private constructor(private val binding: AlbumItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -33,11 +31,7 @@ class AlbumAdapter(private val onClickListener: AlbumOnClickListener) :
             }
         }
 
-        /**
-         * Updates [ViewHolder] with passed [album]
-         *
-         * @param album
-         */
+         /** Updates [ViewHolder] with passed [album] */
         fun bind(album: AlbumEntity) {
             binding.album = album
             binding.executePendingBindings()
@@ -56,9 +50,7 @@ class AlbumAdapter(private val onClickListener: AlbumOnClickListener) :
     }
 }
 
-/**
- * Simple [DiffUtil.ItemCallback] for [AlbumEntity]
- */
+/** Simple [DiffUtil.ItemCallback] for [AlbumEntity] */
 class AlbumDiffCallback : DiffUtil.ItemCallback<AlbumEntity>() {
     override fun areItemsTheSame(oldItem: AlbumEntity, newItem: AlbumEntity) = oldItem.id == newItem.id
     override fun areContentsTheSame(oldItem: AlbumEntity, newItem: AlbumEntity) = oldItem == newItem

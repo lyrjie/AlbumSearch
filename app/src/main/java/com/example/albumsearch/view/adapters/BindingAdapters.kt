@@ -13,11 +13,7 @@ import com.example.albumsearch.model.network.ApiStatus
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Loads the image into [ImageView] using passed [url]
- *
- * @param url
- */
+/** Loads the image into [ImageView] using passed [url] */
 @BindingAdapter("imageUrl")
 fun ImageView.loadImage(url: String?) {
     url?.let {
@@ -40,11 +36,7 @@ fun ImageView.loadImage(url: String?) {
     }
 }
 
-/**
- * Sets [TextView]'s text to [newText] with dot added in the end
- *
- * @param newText
- */
+/** Sets [TextView]'s text to [newText] with dot added in the end */
 @BindingAdapter("numberWithDot")
 fun TextView.setNumberWithDot(newText: Int?) {
     newText?.let {
@@ -52,11 +44,7 @@ fun TextView.setNumberWithDot(newText: Int?) {
     }
 }
 
-/**
- * Sets [TextView]'s text to [millis] converted to readable duration (1:23:45)
- *
- * @param millis
- */
+/** Sets [TextView]'s text to [millis] converted to readable duration (1:23:45) */
 @BindingAdapter("durationText")
 fun TextView.setDurationText(millis: Long?) {
     millis?.let {
@@ -64,11 +52,7 @@ fun TextView.setDurationText(millis: Long?) {
     }
 }
 
-/**
- * Sets [TextView]'s text to complete years in [date]
- *
- * @param date
- */
+/** Sets [TextView]'s text to complete years in [date] */
 @BindingAdapter("yearText")
 fun TextView.setYearText(date: Date?) {
     date?.let {
@@ -79,11 +63,7 @@ fun TextView.setYearText(date: Date?) {
     }
 }
 
-/**
- * Sets [TextView]'s text to user's local date representation of [Date]
- *
- * @param date
- */
+/** Sets [TextView]'s text to user's local date representation of [Date] */
 @BindingAdapter("dateText")
 fun TextView.setDateText(date: Date?) {
     date?.let {
@@ -95,8 +75,6 @@ fun TextView.setDateText(date: Date?) {
  * Changes [ImageView]'s drawable and visibility based on the passed [status].
  * [ApiStatus.ERROR] and [ApiStatus.LOADING] show fitting images while [ApiStatus.DONE] hides the
  * [ImageView]
- *
- * @param status
  */
 @BindingAdapter("statusImage")
 fun ImageView.setStatusImage(status: ApiStatus?) {

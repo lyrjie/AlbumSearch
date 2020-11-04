@@ -6,9 +6,7 @@ import com.example.albumsearch.model.network.dto.LookupEntityDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-/**
- * API description
- */
+/** API description */
 interface ITunesApi {
 
     companion object {

@@ -22,9 +22,7 @@ class SearchFragment : Fragment() {
 
     private val viewModel: SearchViewModel by viewModels()
 
-    /**
-     * Search results adapter
-     */
+    /** Search results adapter */
     private lateinit var adapter: AlbumAdapter
 
     override fun onCreateView(
@@ -43,9 +41,7 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
-    /**
-     * Sets up toast displaying
-     */
+    /** Sets up toast displaying */
     private fun setupToaster() {
         viewModel.toastMessage.observe(viewLifecycleOwner, {
             it?.let {
@@ -55,9 +51,7 @@ class SearchFragment : Fragment() {
         })
     }
 
-    /**
-     * Links up navigation to [viewModel]
-     */
+    /** Links up navigation to [viewModel] */
     private fun setupNavigation() {
         viewModel.navigateToDetails.observe(viewLifecycleOwner, {
             it?.let {
@@ -76,9 +70,7 @@ class SearchFragment : Fragment() {
         })
     }
 
-    /**
-     * Initializes [search_results_recycler]
-     */
+    /** Initializes [search_results_recycler] */
     private fun setupResultsRecycler(searchResultsRecycler: RecyclerView) {
         // Setup RecyclerView.Adapter
         adapter = AlbumAdapter(AlbumOnClickListener {
@@ -113,11 +105,7 @@ class SearchFragment : Fragment() {
         })
     }
 
-    /**
-     * Sets up [searchView] focus clearing
-     *
-     * @param searchView
-     */
+    /** Sets up [searchView] focus clearing */
     private fun setupSearchFocusClear(searchView: SearchView) {
         viewModel.clearSearchFocus.observe(viewLifecycleOwner, {
             if (it == true) {

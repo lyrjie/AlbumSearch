@@ -10,9 +10,7 @@ import com.example.albumsearch.model.network.ApiStatus
 import com.example.albumsearch.model.network.dto.AlbumDto
 import kotlinx.coroutines.*
 
-/**
- * ViewModel for search screen
- */
+/** ViewModel for search screen */
 
 class SearchViewModel
 @ViewModelInject
@@ -21,35 +19,25 @@ constructor(private val repository: AlbumRepository) : BaseViewModel() {
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
-    /**
-     * Keyphrase to search by
-     */
+    /** Keyphrase to search by */
     private val searchTerm = MutableLiveData<String>()
 
-    /**
-     * Results of the last performed search
-     */
+    /** Results of the last performed search */
     val searchResults = Transformations.switchMap(searchTerm) {
         repository.getFilteredAlbums(it)
     }
 
-    /**
-     * [AlbumDto] to details of which to navigate
-     */
+    /** [AlbumDto] to details of which to navigate */
     private val _navigateToDetails = MutableLiveData<AlbumEntity?>()
     val navigateToDetails: LiveData<AlbumEntity?>
         get() = _navigateToDetails
 
-    /**
-     * True if the search input should lose focus
-     */
+    /** True if the search input should lose focus */
     private val _clearSearchFocus = MutableLiveData<Boolean>()
     val clearSearchFocus: LiveData<Boolean>
         get() = _clearSearchFocus
 
-    /**
-     * Status of the last API call
-     */
+    /** Status of the last API call */
     private val _status = MutableLiveData<ApiStatus>()
     val status: LiveData<ApiStatus>
         get() = _status
@@ -73,25 +61,17 @@ constructor(private val repository: AlbumRepository) : BaseViewModel() {
         }
     }
 
-    /**
-     * Notifies ViewModel about the [album] search result being clicked
-     *
-     * @param album
-     */
+    /** Notifies ViewModel about the [album] search result being clicked */
     fun searchResultClicked(album: AlbumEntity) {
         _navigateToDetails.value = album
     }
 
-    /**
-     * Notifies ViewModel about the navigation being completed
-     */
+    /** Notifies ViewModel about the navigation being completed */
     fun onDetailsNavigated() {
         _navigateToDetails.value = null
     }
 
-    /**
-     * Notifies ViewModel about search losing focus
-     */
+    /** Notifies ViewModel about search losing focus */
     fun onSearchFocusCleared() {
         _clearSearchFocus.value = null
     }

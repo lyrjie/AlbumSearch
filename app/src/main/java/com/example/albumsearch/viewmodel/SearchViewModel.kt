@@ -4,20 +4,18 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import com.example.albumsearch.model.AlbumRepository
 import com.example.albumsearch.model.database.entities.AlbumEntity
 import com.example.albumsearch.model.network.ApiStatus
 import com.example.albumsearch.model.network.dto.AlbumDto
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 
 /** ViewModel for search screen */
 
 class SearchViewModel
 @ViewModelInject
 constructor(private val repository: AlbumRepository) : BaseViewModel() {
-
-    private val job = Job()
-    private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     /** Keyphrase to search by */
     private val searchTerm = MutableLiveData<String>()
@@ -49,7 +47,7 @@ constructor(private val repository: AlbumRepository) : BaseViewModel() {
      */
     fun performSearch(term: String) {
         _clearSearchFocus.value = true
-        coroutineScope.launch {
+        viewModelScope.launch {
             try {
                 _status.value = ApiStatus.LOADING
                 searchTerm.value = term
@@ -75,13 +73,5 @@ constructor(private val repository: AlbumRepository) : BaseViewModel() {
     fun onSearchFocusCleared() {
         _clearSearchFocus.value = null
     }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        // Cancel pending coroutines
-        job.cancel()
-    }
-
 
 }

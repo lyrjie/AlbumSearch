@@ -3,14 +3,12 @@ package com.example.albumsearch.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.albumsearch.R
 import com.example.albumsearch.model.AlbumRepository
 import com.example.albumsearch.model.database.entities.AlbumEntity
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -26,9 +24,6 @@ constructor(
     @Assisted
     val album: AlbumEntity
 ) : BaseViewModel() {
-
-    private val job = Job()
-    private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
     /**
      * Track list to display
@@ -51,20 +46,13 @@ constructor(
      * even if it's not necessary by passing true to [isForced].
      */
     private fun refreshTrackList(isForced: Boolean) {
-        coroutineScope.launch {
+        viewModelScope.launch {
             try {
                 repository.fetchTracksIfRequired(album, isForced)
             } catch (exception: Exception) {
                 _toastMessage.value = R.string.couldnt_load_track_list
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        // Cancel pending coroutines
-        job.cancel()
     }
 
     /** Handles refresh button click */
